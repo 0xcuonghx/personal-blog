@@ -180,3 +180,8 @@ $ pass show facebook/cuonghx
 - Your github repository (protect by private github repository)
 - Your master password (only you know that)
 
+# Reference
+1. [OpenPGP Message Format document](https://datatracker.ietf.org/doc/html/rfc4880)
+2. [OpenPGP implementation for JavaScript](https://github.com/openpgpjs/openpgpjs)
+3. [Pass-store Github](https://github.com/zx2c4/password-store)
+4. [Pass-store Home page](https://www.passwordstore.org/)
