@@ -127,8 +127,6 @@ module.exports = {
         ],
         pluginConfig: {
           head: true,
-          respectDNT: true,
-          exclude: ["/preview/**", "/do-not-track/me/too/"],
         },
       },
     },
