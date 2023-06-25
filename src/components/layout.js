@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link } from "gatsby"
 
-const Layout = ({ location, title, children }) => {
+const Layout = ({ location, title, children, totalViews = 0 }) => {
   const rootPath = `${__PATH_PREFIX__}/`
   const isRootPath = location.pathname === rootPath
   let header
@@ -45,6 +45,7 @@ const Layout = ({ location, title, children }) => {
         >
           stack overflow
         </a>
+        {totalViews}
       </footer>
     </div>
   )

@@ -1,3 +1,4 @@
+require("dotenv").config()
 /**
  * Configure your Gatsby site with this file.
  *
@@ -129,6 +130,17 @@ module.exports = {
           head: true,
         },
       },
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics-reporter`,
+      options: {
+        email: process.env.ANALYTICS_EMAIL,
+        privateKey: process.env.ANALYTICS_PRIVATE_KEY,
+        viewId: process.env.ANALYTICS_VIEW_ID,
+        startDate: `30daysAgo`,
+        endDate: `today`,
+        pageSize: 10000
+      }
     },
   ],
 }
