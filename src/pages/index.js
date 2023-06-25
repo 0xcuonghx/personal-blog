@@ -8,7 +8,7 @@ import Seo from "../components/seo"
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const posts = data.allMarkdownRemark.nodes
-  const totalViews = data?.allPageViews?.totalCount || 0
+  const totalViews = data?.pageViews?.totalCount
 
   if (posts.length === 0) {
     return (
@@ -91,7 +91,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    allPageViews(sort: { order: DESC, fields: totalCount }) {
+    pageViews(path: {eq: "/"}) {
       totalCount
     }
   }
