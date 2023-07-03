@@ -43,7 +43,7 @@ The Merkle Patricia Trie (trie) of implementation in Ethereum combination of Mer
 
 > #### 
 > - Usually trie is stored in a separate database. The “link” fields in a node stores the hash value of the next node. This hash value is used as a key to retrieve the 
-> actual |node from the database during traversal. Therefore searching a key in the trie requires multiple database lookups for getting the nodes in the path.
+> actual node from the database during traversal. Therefore searching a key in the trie requires multiple database lookups for getting the nodes in the path.
 > - Leaf nodes and extension nodes have similar structure. So a flag is included at the beginning of path value to differentiate between them.
 
 
@@ -78,54 +78,62 @@ When a trie is created, the root node points to an EmptyNode.
 
 ![ex2](./ex2.png)
 
-| key   | value                           |
-|-------|---------------------------------|
-| hash1 | keccak256(rlp([0xa711355, 45ETH])) |
+#### Key-value pairs
+```
+hash1 -> keccak256(rlp([0xa711355, 45ETH]))
+```
 
+---------------------------------------------
 - Empty node turn into Leaf node
 - `hash1`: equals `keccak256(rlp([0xa711355, 45]))`
 
 ### Adding the 2nd balance
 
 ![ex3](./ex3.png)
-| key   | value                                                                         |
-|-------|-------------------------------------------------------------------------------|
-| hash1 | keccak256(rlp([0xa711355, 45ETH]))                                            |
-| hash2 | keccak256(rlp([0xa77d337, 1.00wei]))                                          |
-| hash3 | keccak256(rlp[null,hash1,null,null,null,null,hash2,null,null,null,null,null,null,null,null,null,null]) |
-| hash4 | keccak256(rlp([0xa7,hash3]))|
+#### Key-value pairs
 
+```
+hash1 -> keccak256(rlp([0xa711355, 45ETH]))                                                               
+hash2 -> keccak256(rlp([0xa77d337, 1.00wei]))                                                             
+hash3 -> keccak256(rlp[null,hash1,null,null,null,null,hash2,null,null,null,null,null,null,null,null,null,null]) 
+hash4 -> keccak256(rlp([0xa7,hash3]))
+```
+
+
+---------------------------------------------
 - When adding 2nd balance common prefix found `a7` so create `Extension Node` with share nibble `a7` and value point to `Branch Node(hash3)`
 - Branch Node store at position 1 is `Leaf Node(hash1)` and 7 is `Leaf Node (hash2)`
 
 ### Adding the 3rd balance
 
 ![ex4](./ex4.png)
+#### Key-value pairs
+```
+hash1 -> keccak256(rlp([0xa711355, 45ETH]))                                            
+hash2 -> keccak256(rlp([0xa77d337, 1.00wei]))                                          
+hash3 -> keccak256(rlp([0xa7f9365, 1.1ETH]))                                           
+hash4 -> keccak256(rlp[null,hash1,null,null,null,null,hash2,null,null,null,null,hash3,null]) 
+hash5 -> keccak256(rlp([0xa7,hash4]))   
+```
 
-| key   | value                                                                         |
-|-------|-------------------------------------------------------------------------------|
-| hash1 | keccak256(rlp([0xa711355, 45ETH]))                                            |
-| hash2 | keccak256(rlp([0xa77d337, 1.00wei]))                                          |
-| hash3 | keccak256(rlp([0xa7f9365, 1.1ETH]))                                           |
-| hash4 | keccak256(rlp[null,hash1,null,null,null,null,hash2,null,null,null,null,hash3,null]) |
-| hash5 | keccak256(rlp([0xa7,hash4]))   
+---------------------------------------------
 
 - when adding `0xa7f9365` we found common prefix `a7` and same previous step `Branch Node` store at position f, so hash of `Branch Node` changed
 
 ### Adding the 4th balance
 
 ![ex5](./ex5.png)
-
-| key   | value                                                                                                |
-|-------|------------------------------------------------------------------------------------------------------|
-| hash1 | keccak256(rlp([0xa711355, 45ETH]))                                                                   |
-| hash2 | keccak256(rlp([0xa7f9365, 1.1ETH]))                                                                  |
-| hash3 | keccak256(rlp([0xa77d337, 1.00wei]))                                                                 |
-| hash4 | keccak256(rlp([0x77d397, 0.12ETH]))                                                                  |
-| hash5 | keccak256(rlp([null,null,null,hash3,null,null,null,null,hash4,null,null,null,null,null,null,null]))  |
-| hash6 | keccak256(rlp([0xd3,hash5]))                                                                        |
-| hash7 | keccak256(rlp([null,hash1,null,null,null,null,hash7,null,null,null,null,null,null,null,hash2,null])) |
-| hash8 | keccak256(rlp([0xa7, hash7]))                                                                           |
+```
+hash1 -> keccak256(rlp([0xa711355, 45ETH]))                                                                   
+hash2 -> keccak256(rlp([0xa7f9365, 1.1ETH]))                                                                  
+hash3 -> keccak256(rlp([0xa77d337, 1.00wei]))                                                                 
+hash4 -> keccak256(rlp([0x77d397, 0.12ETH]))                                                                  
+hash5 -> keccak256(rlp([null,null,null,hash3,null,null,null,null,hash4,null,null,null,null,null,null,null]))  
+hash6 -> keccak256(rlp([0xd3,hash5]))                                                                        
+hash7 -> keccak256(rlp([null,hash1,null,null,null,null,hash7,null,null,null,null,null,null,null,hash2,null])) 
+hash8 -> keccak256(rlp([0xa7, hash7]))                                                                           
+```
+---------------------------------------------
 
 - `0xa77d397` has `a7` and `d3` nibbles is same with `0xa77d337` so create another `Extension Node (hash6)` and new `Branch Node (hash3)`
 - New `Branch Node` store at position 3 is `Leaf Node(hash3)` and 9 is `Leaf Node (hash4)`
