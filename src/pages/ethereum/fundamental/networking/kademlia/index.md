@@ -28,9 +28,9 @@ Example of global hash table:
 
 ## Kademlia Overview
 
-Kademlia takes the same general approach as other DTHs.
-Kademlia using <strong>160-bit/strong> for node id.
-Kademlia treats nodes as <strong>leaves/strong> in binary tree, with each nodes's position determined by the <strong>shortest prefix of its ID</strong>
+- Kademlia takes the same general approach as other DTHs.
+- Kademlia using <strong>160-bit</strong> for node id.
+- Kademlia treats nodes as <strong>leaves</strong> in binary tree, with each nodes's position determined by the <strong>shortest prefix of its ID</strong>
 
 ![tree](./figures/tree.png)
 
