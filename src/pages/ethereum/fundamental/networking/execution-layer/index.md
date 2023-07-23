@@ -45,3 +45,48 @@ This is bootstrapped using a small set of bootnodes (nodes whose addresses are h
 -  If the nodes are not bonded, the FIND-NEIGHBOURS request will fail, so the new node will not be able to enter the network
 
 RLPx handles peer discovery via a Kademlia DHT-based on UDP protocol. It's bootstrap a seed nodes and performs iterative lookups on the network, filling up a k-bucket peer routing table where nodes take up positions based on their the XOR distance metric.
+
+## RLPx wire protocol
+
+- Established TCP-based encrypted and authenticated sessions with peers (exchange PK and create handshake using share secret)
+- Manage their lifecycle
+- Performs keep alive (PING-PONG) to prevent DDOS
+- Agrees on mutual supported capabilities (subprotocols)
+
+### Session initialization
+
+### Handshake
+![ack-handshake](./figures/ack.png)
+
+- A RLPx session between two nodes begins with an initial cryptographic handshake. This involves the node sending an auth message which is then verified by the peer. On successful verification, the peer generates an auth-acknowledgement message to return to the initiator node. This is a key-exchange process that enables the nodes to communicate privately and securely.
+
+#### Hello package
+![hello-package](./figures/hello-package.png)
+
+A successful cryptographic handshake then triggers both nodes to send a "hello" message to one another "on the wire". The wire protocol is initiated by a successful exchange of hello messages.
+
+The hello messages contain:
+
+- protocol version
+- client ID
+- port
+- node ID
+- list of supported sub-protocols
+
+#### Subprotocols
+
+- Wire protocol: Initially, the wire protocol defined three main tasks: chain synchronization, block propagation and transaction exchange. However, once Ethereum switched to proof-of-stake, block propagation and chain synchronization became part of the consensus layer
+
+- les (light ethereum subprotocol): This is a minimal protocol for syncing light clients
+
+- snap: The snap protocol is an optional extension that allows peers to exchange snapshots of recent states, allowing peers to verify account and storage data without having to download intermediate Merkle trie nodes
+
+- Wit (witness protocol): The witness protocol is an optional extension that enables exchange of state witnesses between peers, helping to sync clients to the tip of the chain.
+
+- Whisper: Whisper was a protocol that aimed to deliver secure messaging between peers without writing any information to the blockchain
+
+# Reference
+
+1. [Video - Introduction to networking protocols between Ethereum nodes @ Paris P2P Festival #0](https://www.youtube.com/watch?v=Bwtjvmjtyjg)
+2. [Ethereum Official docs - NETWORKING LAYER](https://ethereum.org/en/developers/docs/networking-layer)
+3. [Devp2p specs](https://github.com/ethereum/devp2p/tree/master)
