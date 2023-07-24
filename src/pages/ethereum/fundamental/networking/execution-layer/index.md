@@ -1,8 +1,9 @@
 ---
 title: "[Ethereum Networking] Part 1: The Execution Layer"
 date: "2023-07-10T10:48:04.377Z"
-description: "Ethereum is a peer-to-peer network with thousands of nodes that must be able to communicate with one another using standardized protocols. The "networking layer" is the stack of protocols that allow those nodes to find each other and exchange information."
+description: "Ethereum is a peer-to-peer network with thousands of nodes that must be able to communicate with one another using standardized protocols. The networking layer is the stack of protocols that allow those nodes to find each other and exchange information."
 ---
+
 # Overview
 A Peer To Peer (p2p) network is an overlay network build on top of public internet
 There are two parts to the client software:
