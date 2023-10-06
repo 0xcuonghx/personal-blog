@@ -5,13 +5,13 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 const BlogPostTemplate = ({
-  data: { previous, next, site, markdownRemark: post, pageViews },
+  data: { previous, next, site, markdownRemark: post },
   location,
 }) => {
   const siteTitle = site.siteMetadata?.title || `Title`
 
   return (
-    <Layout location={location} title={siteTitle} totalViews={pageViews?.totalCount}>
+    <Layout location={location} title={siteTitle}>
       <article
         className="blog-post"
         itemScope
@@ -73,7 +73,6 @@ export const pageQuery = graphql`
     $id: String!
     $previousPostId: String
     $nextPostId: String
-    $slug: String!
   ) {
     site {
       siteMetadata {
@@ -105,9 +104,6 @@ export const pageQuery = graphql`
       frontmatter {
         title
       }
-    }
-    pageViews(path: {regex: $slug}) {
-      totalCount
     }
   }
 `

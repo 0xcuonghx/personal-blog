@@ -8,11 +8,10 @@ import Seo from "../components/seo"
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const posts = data.allMarkdownRemark.nodes
-  const totalViews = data?.pageViews?.totalCount
 
   if (posts.length === 0) {
     return (
-      <Layout location={location} title={siteTitle} >
+      <Layout location={location} title={siteTitle}>
         <Bio />
         <p>
           No blog posts found. Add markdown posts to "content/blog" (or the
@@ -24,7 +23,7 @@ const BlogIndex = ({ data, location }) => {
   }
 
   return (
-    <Layout location={location} title={siteTitle} totalViews={totalViews}>
+    <Layout location={location} title={siteTitle}>
       <Bio />
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
@@ -90,9 +89,6 @@ export const pageQuery = graphql`
           description
         }
       }
-    }
-    pageViews(path: {eq: "/"}) {
-      totalCount
     }
   }
 `
